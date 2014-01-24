@@ -1,0 +1,18 @@
+<div class="sum">{{ order.real_total_rub|default:order.total_rub }} руб. 00 коп.</div>
+<div class="sum_2">{{ order.real_total_rub|default:order.total_rub }}</div>
+<div class="to">{{ order.name }}</div>
+<div class="to_2">{{ order.name }}</div>
+<div class="to_address">{{ order.address }}</div>
+<div class="to_zip_code zip_code">{{ order.zip_code }}</div>
+<div class="to_address_2">{{ order.address }}</div>
+<div class="to_zip_code_2 zip_code">{{ order.zip_code }}</div>
+<div class="from">{{ from_address.name }}</div>
+<div class="from_address">{{ from_address.address }}</div>
+<div class="from_zip_code zip_code">{{ from_address.zip_code }}</div>
+<div class="passport_type">паспорт</div>
+<div class="passport_series">{{ from_address.passport_series }}</div>
+<div class="passport_number">{{ from_address.passport_number }}</div>
+<div class="passport_dt1">{{ from_address.passport_date|date:"d.m" }}</div>
+<div class="passport_dt2">{{ from_address.passport_date|date:"y" }}</div>
+<div class="passport_by">{{ from_address.passport_by }}</div>
+

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<head>
+<title>Печать заказов</title>
+<style>
+body {
+    font:normal 14px/1.4 sans-serif;
+}
+.header {
+    padding: 2em;
+}
+.post {
+    position: relative;
+}
+.post img {
+    width: 100%;
+}
+.blank {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.left-blank {
+    top:0;
+    left:0;
+}
+.right-blank {
+    top:.5%;
+    left:50%;
+}
+.blank div {
+    position: absolute;
+    color: red;
+    border: dashed 1px red;
+    font: normal 100% sans-serif;
+}
+.blank .sum {
+    width: 20%;
+    top: 24.5%;
+    left: 7%;
+}
+.blank .sum_2 {
+    width: 5%;
+    top: 79%;
+    left: 14%;
+}
+.blank .to {
+    width: 17%;
+    top: 32.5%;
+    left: 10.5%;
+}
+.blank .to_2 {
+    width: 32.5%;
+    top: 82.1%;
+    left: 10.5%;
+}
+.blank .to_address {
+    text-indent: 3.7%;
+    width: 21.4%;
+    top: 34.6%;
+    left: 7%;
+    line-height: 1.38;
+}
+.blank .to_address_2 {
+    text-indent: 3.7%;
+    width: 36%;
+    top: 85%;
+    left: 7%;
+}
+.blank .zip_code {
+    letter-spacing: 1.1em;
+    width: 10%;
+}
+.blank .to_zip_code {
+    top: 38.5%;
+    left: 18.4%;
+}
+.blank .to_zip_code_2 {
+    top: 87.5%;
+    left: 32.9%;
+}
+.right-blank .to_zip_code_2  {
+    left: 33.2%;
+}
+.blank .from {
+    width: 31.5%;
+    top: 41%;
+    left: 12%;
+}
+.blank .from_address {
+    text-indent: 3.7%;
+    width: 36.5%;
+    top: 43.4%;
+    left: 7%;
+}
+.blank .from_zip_code {
+   top: 45.5%;
+   left: 32.9%;
+}
+.blank .passport_type {
+   top: 52.5%;
+   left: 13.4%;
+}
+.blank .passport_series {
+   top: 52.5%;
+   left: 21.4%;
+}
+.blank .passport_number {
+   top: 52.5%;
+   left: 25.4%;
+}
+.blank .passport_dt1 {
+   top: 52.5%;
+   left: 36.4%;
+}
+.blank .passport_dt2 {
+   top: 52.5%;
+   left: 41.4%;
+}
+.blank .passport_by {
+   top: 55.1%;
+   left: 7%;
+   width: 37%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@media screen {
+    .screen_hidden {
+        display: none;
+    }
+}
+
+@media print {
+    body {
+{#        font-size:11px;#}
+        font-size:15px;
+    }
+    .break {
+        page-break-before: always;
+    }
+    .blank div {
+        border: none;
+        color: #000 !important;
+    }
+    .blank .zip_code {
+{#        font-size: 15px;#}
+        letter-spacing: 1.15em;
+    }
+    @page {
+        padding: 0;
+        margin: 0;
+        size: landscape;
+    }
+    .print_hidden {
+        display: none;
+    }
+}
+</style>
+</head>
+    {% if backs_range %}
+        <body onload="
+            if (confirm('ВНИМАНИЕ! Страницы должны печататься в LANDSCAPE-режиме! По умолчанию стоит портретный. Если его оставить, получится ерунда')) window.print();
+        ">
+        {% for n in backs_range %}
+            <div class="post">
+                <img src="{{ STATIC_URL }}i/post2.JPG" style="height: 99%">
+            </div>
+            <div class="break"></div>
+        {% endfor %}
+    {% else %}
+        <body>
+        <div class="header print_hidden">
+            <div class="print_hidden" style="border: dashed #e03760 2px; padding:0.2em 1em">
+                <p>Сначала надо распечатать задние части бланков</p>
+                <form action="./" method="get" target="_blank">
+                    <input name="backs" type="text" value="{{ n_pages }}"> штук.
+                    <input type="submit" value="Распечатать">
+                </form>
+                <p>Когда они распечатаны, бланки надо положить в лоток <b>текстом вниз</b> так, чтоы правые верхние
+                    уголоки (там написано <b>Ф.116</b>) были <b>слева близко к нам</b>.</p>
+            </div>
+            {% include "print_orders_head.html" %}
+        </div>
+        {% for order in orders %}
+            {% if forloop.counter0|divisibleby:2 %}
+{#                {% if not forloop.first %}<div class="break"></div>{% endif %}#}
+                <div class="post">
+                    <img src="{{ STATIC_URL }}i/post1.JPG">
+                    <div class="blank left-blank">
+                        {% include "print_orders_data.html" with order=order %}
+                    </div>
+            {% else %}
+                    <div class="blank right-blank">
+                        {% include "print_orders_data.html" with order=order %}
+                    </div>
+                {% if not forloop.last %}</div>{% endif %}
+            {% endif %}
+            {% if forloop.last %}</div>{% endif %}
+    {#        <div class="post">#}
+    {#            <img src="{{ STATIC_URL }}i/post2.JPG" style="height: 99%">#}
+    {#        </div>#}
+        {% endfor %}
+    {% endif %}
+
+    <div class="screen_hidden">
+        <div class="break"></div>
+        {% include "print_orders_head.html" %}
+    </div>
+</body>
