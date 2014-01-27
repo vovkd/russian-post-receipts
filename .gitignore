@@ -1,0 +1,7 @@
+/env_py_exe/
+/build/
+/dist/
+*.py[co]
+local.*
+
+
