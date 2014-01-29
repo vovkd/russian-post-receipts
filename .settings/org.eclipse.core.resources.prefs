@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/page1_gen.py=utf-8
 encoding//src/pdf.py=utf-8
 encoding//src/runtime_gen.py=utf-8
+encoding//src/test_wsgi_server.py=utf-8
 encoding/README.md=UTF-8
