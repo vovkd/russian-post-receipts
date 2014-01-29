@@ -4,7 +4,7 @@
 
 ###передача данных(псевдокод)
 #### а) 
-'''
+'''python
  from page1_gen import Page1_gen, Page1_data(), PageXX_data() 
  
  данные = Page1_data()
@@ -17,7 +17,7 @@
 ''' 
  
 #### б)
-'''
+'''python
  from page1_gen import Page1_gen 
  
  данные = {"имя_переменной1":"значение", "имя_переменной2":"значение", ...}
