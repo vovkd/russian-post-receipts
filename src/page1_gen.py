@@ -63,13 +63,31 @@ class Page1_gen():
         self.im.drawOn(self.pdf, 0, 0)
 
     def render_page1_data(self):
-        self.pdf.setFont('DejaVuSans', 12)
+        self.pdf.setFont('DejaVuSans', 8)
         self.pdf.setFillColor(red)
-        self.pdf.drawString(2.05*cm, 15.4*cm, self.page1_data.sum)
-
-        self.pdf.drawString(3.5*cm, 12.05*cm, self.page1_data.to_name)
         
-        self.drawClippingString(self.page1_data.to_name, 3.5*cm, 9.05*cm, 6.2*cm, 1*cm)
+        #self.pdf.drawString(2.05*cm, 15.4*cm, self.page1_data.sum)
+        #self.pdf.drawString(3.5*cm, 12.05*cm, self.page1_data.to_name)
+        #self.drawClippingString(self.page1_data.to_name, 3.5*cm, 9.05*cm, 6.2*cm, 1*cm)
+        
+        #money
+        self.pdf.setFont('DejaVuSans', 12)
+        self.pdf.drawString(2.05*cm, 15.4*cm, self.page1_data.sum + u" руб. 00 коп.")
+        self.pdf.drawString(3.53*cm, 4*cm, self.page1_data.sum)
+        
+        #to
+        self.pdf.setFont('DejaVuSans', 8)
+        #name
+        self.drawClippingString(self.page1_data.to_name, 3.12*cm, 13.85*cm, 5*cm, 0.5*cm)
+        #address - need split
+        self.drawClippingString(self.page1_data.to_address, 3.12*cm, 13.4*cm, 5*cm, 0.5*cm)
+        #zip_code
+        zip_code = self.pdf.beginText()
+        zip_code.setTextOrigin(5.39*cm, 12.55*cm)
+        zip_code.setFont('DejaVuSans', 10)
+        zip_code.setCharSpace(8)
+        zip_code.textLine(self.page1_data.to_zip_code)
+        self.pdf.drawText(zip_code)
         
         
     def write_pdf_file(self):
@@ -87,8 +105,10 @@ def make_test_data():
     #test data
     #page1_data={u'fio':u'Печеньев Иван Петрович',u'summa':u'2110 руб. 00 коп.'}
     page1_data = Page1_data()
-    page1_data.sum = u'2110 руб. 00 коп.'
+    page1_data.sum = u'2110'
     page1_data.to_name = u'Соболев Михаил Борисович - тринадцатый'
+    page1_data.to_address = u'РФ, г. Москва, ул. Чебурашкина, д.13, кв. 13'
+    page1_data.to_zip_code = u'107553'
     return page1_data
     
     
