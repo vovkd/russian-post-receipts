@@ -6,7 +6,7 @@ Created on 29 янв. 2014 �.
 '''
 
 from wsgiref.simple_server import make_server
-from page1_gen import make_test_data, Page1_gen
+from post_receipts_pdf import make_test_data, PostReceiptsPdf
 import cStringIO
 
 def test_pdf_gen_app(environ, start_response):
@@ -16,7 +16,7 @@ def test_pdf_gen_app(environ, start_response):
                ('filename', 'test_page.pdf')]
     start_response(status, headers)
     
-    page =  Page1_gen(make_test_data())
+    page =  PostReceiptsPdf(make_test_data())
     str_buf = cStringIO.StringIO()
     page.make_page1_pdf_file(str_buf)
 
