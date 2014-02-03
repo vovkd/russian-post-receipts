@@ -56,7 +56,7 @@ class PostReceiptsPdf():
         p = self.pdf.beginPath()
         p.rect(posx,posy,sizex,sizey)
         self.pdf.clipPath(p,stroke=0)
-        self.pdf.drawString(posx,posy,text)
+        self.pdf.drawString(posx,posy + 0.05*cm,text)
         self.pdf.restoreState()        
     
     def create_pdf_file(self, file_name):
@@ -75,10 +75,6 @@ class PostReceiptsPdf():
         self.pdf.setFont('DejaVuSans', 8)
         self.pdf.setFillColor(red)
         
-        #self.pdf.drawString(2.05*cm, 15.4*cm, self.lside_data.sum)
-        #self.pdf.drawString(3.5*cm, 12.05*cm, self.lside_data.to_name)
-        #self.drawClippingString(self.lside_data.to_name, 3.5*cm, 9.05*cm, 6.2*cm, 1*cm)
-        
         #money
         self.pdf.setFont('DejaVuSans', 12)
         self.pdf.drawString(self.x(2.05*cm), self.y(15.4*cm), self.lside_data.sum + u" руб. 00 коп.")
@@ -87,12 +83,63 @@ class PostReceiptsPdf():
         #to
         self.pdf.setFont('DejaVuSans', 8)
         #name
-        self.drawClippingString(self.lside_data.to_name, self.x(3.12*cm), self.y(13.85*cm), 5*cm, 0.5*cm)
-        #address - need split
-        self.drawClippingString(self.lside_data.to_address, self.x(3.12*cm), self.y(13.4*cm), 5*cm, 0.5*cm)
+        self.drawClippingString(self.lside_data.to_name, self.x(3.12*cm), self.y(13.8*cm), 5.1*cm, 0.5*cm)
+        #address - if need split
+        if len(self.lside_data.to_address) >= 33: # 33chars for font size 8
+            #split to 2 line
+            self.drawClippingString(self.lside_data.to_address[:33], self.x(3.12*cm), self.y(13.35*cm), 5.1*cm, 0.5*cm)
+            #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
+            self.drawClippingString(self.lside_data.to_address[33:], self.x(2.02*cm), self.y(12.95*cm), 6.1*cm, 0.5*cm)
+        else:
+            self.drawClippingString(self.lside_data.to_address, self.x(3.12*cm), self.y(13.35*cm), 5.1*cm, 0.5*cm)
+            
         #zip_code
         zip_code = self.pdf.beginText()
         zip_code.setTextOrigin(self.x(5.39*cm), self.y(12.55*cm))
+        zip_code.setFont('DejaVuSans', 10)
+        zip_code.setCharSpace(8)
+        zip_code.textLine(self.lside_data.to_zip_code)
+        zip_code.setCharSpace(0)
+        self.pdf.drawText(zip_code)
+        
+        #from
+        #name
+        self.drawClippingString(self.lside_data.from_name, self.x(3.5*cm), self.y(12*cm), 9.05*cm, 0.5*cm)
+        #address - if need split
+        if len(self.lside_data.from_address) >= 59: # 33chars for font size 8
+            #split to 2 line
+            self.drawClippingString(self.lside_data.from_address[:60], self.x(3.12*cm), self.y(11.5*cm), 5.1*cm, 0.5*cm)
+            #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
+            self.drawClippingString(self.lside_data.from_address[60:], self.x(2.03*cm), self.y(11*cm), 7.5*cm, 0.5*cm)
+        else:
+            self.drawClippingString(self.lside_data.from_address, self.x(3.12*cm), self.y(11.5*cm), 5.1*cm, 0.5*cm)
+            
+        #zip_code
+        zip_code = self.pdf.beginText()
+        zip_code.setTextOrigin(self.x(9.77*cm), self.y(11.04*cm))
+        zip_code.setFont('DejaVuSans', 10)
+        zip_code.setCharSpace(8)
+        zip_code.textLine(self.lside_data.from_zip_code)
+        zip_code.setCharSpace(0)
+        self.pdf.drawText(zip_code)
+
+
+        #to_down
+        self.pdf.setFont('DejaVuSans', 8)
+        #name
+        self.drawClippingString(self.lside_data.to_name, self.x(3.12*cm), self.y(3.3*cm), 9.4*cm, 0.5*cm)
+        #address - if need split
+        if len(self.lside_data.to_address) >= 60: # 33chars for font size 8
+            #split to 2 line
+            self.drawClippingString(self.lside_data.to_address[:60], self.x(3.2*cm), self.y(2.75*cm), 9.4*cm, 0.5*cm)
+            #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
+            self.drawClippingString(self.lside_data.to_address[60:], self.x(2*cm), self.y(2.28*cm), 7.5*cm, 0.5*cm)
+        else:
+            self.drawClippingString(self.lside_data.to_address, self.x(3.2*cm), self.y(2.75*cm), 9.4*cm, 0.5*cm)
+            
+        #zip_code
+        zip_code = self.pdf.beginText()
+        zip_code.setTextOrigin(self.x(9.77*cm), self.y(2.18*cm))
         zip_code.setFont('DejaVuSans', 10)
         zip_code.setCharSpace(8)
         zip_code.textLine(self.lside_data.to_zip_code)
@@ -122,6 +169,14 @@ def make_test_data():
     page1_data.to_name = u'Соболев Михаил Борисович - тринадцатый'
     page1_data.to_address = u'РФ, г. Москва, ул. Чебурашкина, д.13, кв. 13'
     page1_data.to_zip_code = u'107553'
+    page1_data.from_name = u"его величество Бурухтан-Бурухтан второй второй его величество Бурухтан-Бурухтан второй второй"
+    page1_data.from_address = u'Тридевятое царсктво, тридесятое государство, 3 изба справа, третий колокол звонить шесть раз по пять раз 123456789123456789'
+    page1_data.from_zip_code = u'393939'
+    
+    #long text
+    #page1_data.to_name = page1_data.from_name
+    #page1_data.to_address = page1_data.from_address
+
     return page1_data
     
     
