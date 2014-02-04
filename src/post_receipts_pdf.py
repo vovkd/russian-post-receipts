@@ -64,8 +64,9 @@ class PostReceiptsPdf():
     def drawClippingString2(self, text, posx, posy, text_length):
         self.pdf.saveState()
         p = self.pdf.beginPath()
-        size_x =  self.pdf._fontsize / 1.56  * text_length;
-        size_y = self.pdf._fontsize;
+        size_x = self.pdf.stringWidth(text) + 1
+        #size_x =  self.pdf._fontsize / 1.56  * text_length;
+        size_y = self.pdf._fontsize ;
         p.rect(posx - 1, posy - 1, size_x, size_y)
         self.pdf.setStrokeColor(pink if self.debug else black)
         self.pdf.clipPath(p, stroke= 1 if self.debug else 0)
