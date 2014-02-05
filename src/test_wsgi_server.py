@@ -6,7 +6,7 @@ Created on 29 янв. 2014 �.
 '''
 
 from wsgiref.simple_server import make_server
-from post_receipts_pdf import make_test_data, PostReceiptsPdf
+from post_src.pdf_render.post_receipts_pdfrt make_test_data, PostReceiptsPdf
 import cStringIO
 
 def test_pdf_gen_app(environ, start_response):

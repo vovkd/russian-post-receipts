@@ -10,9 +10,10 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.colors import red, pink, black
 from reportlab.platypus.flowables import Image
-from reportlab.lib.pagesizes import landscape, A4
+from reportlab.lib.pagesizes import landscape, A4, letter
 from reportlab.lib.units import cm
 
+import pdf
 
 class Page_data():
     def __init__(self):
@@ -36,46 +37,13 @@ class Page_data():
 
         
 
-class PostReceiptsPdf():
+class PostReceiptsPdf(pdf.BasePdf):
     
-    def __init__(self, l_side_data, r_side_data=None, debug=False):
-        self.pdf = None
-        self.lside_data = l_side_data
-        self.rside_data = r_side_data
-        self.base_x = 0
-        self.base_y = 0
-        self.debug = debug
+    def __init__(self, data, debug=False):
+        pdf.BasePdf.__init__(self, data, debug)
+        self.lside_data = data[0]
+        self.rside_data = data[1]
     
-    def x(self,x):
-        return self.base_x + x
-
-    def y(self,y):
-        return self.base_y + y
-
-    def drawClippingString(self,text,posx,posy,sizex,sizey):
-        self.pdf.saveState()
-        p = self.pdf.beginPath()
-        p.rect(posx,posy,sizex,sizey)
-        self.pdf.setStrokeColor(pink if self.debug else black)
-        self.pdf.clipPath(p,stroke= 1 if self.debug else 0)
-        self.pdf.drawString(posx,posy + 0.05*cm,text)
-        self.pdf.restoreState()
-    
-    def drawClippingString2(self, text, posx, posy, text_length):
-        self.pdf.saveState()
-        p = self.pdf.beginPath()
-        size_x = self.pdf.stringWidth(text) + 1
-        #size_x =  self.pdf._fontsize / 1.56  * text_length;
-        size_y = self.pdf._fontsize ;
-        p.rect(posx - 1, posy - 1, size_x, size_y)
-        self.pdf.setStrokeColor(pink if self.debug else black)
-        self.pdf.clipPath(p, stroke= 1 if self.debug else 0)
-        self.pdf.drawString(posx, posy, text)
-        self.pdf.restoreState()
-    
-    def create_pdf_file(self, file_name):
-        self.pdf = canvas.Canvas(file_name,pagesize=landscape(A4))
-        
     def set_cyrillic_font(self):
         pdfmetrics.registerFont(TTFont('DejaVuSans', 'DejaVuSans.ttf'))
         self.pdf.setFont('DejaVuSans', 10) # default font
@@ -84,7 +52,6 @@ class PostReceiptsPdf():
         else:
             self.pdf.setFillColor(black)
             
-
     def render_page1_image(self):
         A4_Width, A4_Height = A4
         self.im = Image(u'post1.JPG',width=A4_Height, height=A4_Width)
@@ -169,14 +136,8 @@ class PostReceiptsPdf():
         zip_code.setCharSpace(0)
         self.pdf.drawText(zip_code)
      
-       
-        
-    def write_pdf_file(self):
-        self.pdf.showPage() # page end
-        self.pdf.save()
-        
     def make_page1_pdf_file(self, file_name=u'page1.pdf'):
-        self.create_pdf_file(file_name)
+        self.create_pdf_file(file_name, page_size=landscape(A4))
         self.set_cyrillic_font()
         self.render_page1_image()
         self.render_page1_data()
@@ -206,7 +167,10 @@ def make_test_data():
     
 def main_test_lib():
     #make test page
-    page1 = PostReceiptsPdf(make_test_data(), debug=True)
+    data = list()
+    data.append(make_test_data())
+    data.append(make_test_data())
+    page1 = PostReceiptsPdf(data, debug=True)
     page1.make_page1_pdf_file()     
 
 if __name__ == '__main__':
