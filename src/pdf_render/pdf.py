@@ -4,8 +4,8 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.colors import red, pink, black
-from reportlab.platypus.flowables import Image
-from reportlab.lib.pagesizes import landscape, A4
+#from reportlab.platypus.flowables import Image
+from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 
 

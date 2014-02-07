@@ -5,13 +5,12 @@ Created on 29 янв. 2014 г.
 @author: dsv
 '''
 
-from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.lib.colors import red, pink, black
 from reportlab.platypus.flowables import Image
-from reportlab.lib.pagesizes import landscape, A4, letter
+from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib.units import cm
+from reportlab.lib.colors import red, black
 from datetime import datetime
 
 import pdf
@@ -171,10 +170,6 @@ def make_test_data():
     page1_data.passport_dt2 = tmpDate.strftime(u'%y')
     page1_data.passport_by = u'Отделением по району Мордор ОУФМС России по г. Москва'
     
-    #long text
-    #page1_data.to_name = page1_data.from_name
-    #page1_data.to_address = page1_data.from_address
-
     return page1_data
     
     
