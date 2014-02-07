@@ -3,7 +3,7 @@
 /dist/
 *.py[co]
 local.*
-/**/*.pdf
+*/**/*.pdf
 !test/**/*.pdf
 
 

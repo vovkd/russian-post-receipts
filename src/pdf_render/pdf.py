@@ -36,8 +36,12 @@ class BasePdf():
     def drawClippingString2(self, text, posx, posy, text_length):
         self.pdf.saveState()
         p = self.pdf.beginPath()
-        size_x = self.pdf.stringWidth(text) + 1
-        #size_x =  self.pdf._fontsize / 1.56  * text_length;
+        if len(text)< text_length:
+            tmpStr = u''.join((text,("_" * (text_length - len(text)+1))))
+            size_x = self.pdf.stringWidth(tmpStr) + 1
+        else:
+            size_x = self.pdf.stringWidth(text[:text_length]) + 1
+        #size_xx =  self.pdf._fontsize / 1.56  * text_length;
         size_y = self.pdf._fontsize ;
         p.rect(posx - 1, posy - 1, size_x, size_y)
         self.pdf.setStrokeColor(pink if self.debug else black)

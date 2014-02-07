@@ -12,6 +12,7 @@ from reportlab.lib.colors import red, pink, black
 from reportlab.platypus.flowables import Image
 from reportlab.lib.pagesizes import landscape, A4, letter
 from reportlab.lib.units import cm
+from datetime import datetime
 
 import pdf
 
@@ -30,9 +31,9 @@ class Page_data():
         self.from_zip_code = '' # zip_code">{{ from_address.zip_code }}</div>
         self.passport_type = 'паспорт'
         self.passport_series = '' #">{{ from_address.passport_series }}</div>
-        self.passport_numberv = '' #">{{ from_address.passport_number }}</div>
+        self.passport_number = '' #">{{ from_address.passport_number }}</div>
         self.passport_dt1 = '' #">{{ from_address.passport_date|date:"d.m" }}</div>
-        #self.passport_dt2 = '' #">{{ from_address.passport_date|date:"y" }}</div>
+        self.passport_dt2 = '' #">{{ from_address.passport_date|date:"y" }}</div>
         self.passport_by = '' #" = '' #>{{ from_address.passport_by }}</div>
 
         
@@ -60,11 +61,6 @@ class PostReceiptsPdf(pdf.BasePdf):
     def render_page1_data(self):
         self.pdf.setFont('DejaVuSans', 8)
 
-        #test new clipping
-        self.pdf.setFontSize(15)
-        self.drawClippingString2('1Ё3456789у1234567890' , self.x(5.3*cm), self.y(1.33*cm), 19)
-
-        
         #money
         self.pdf.setFont('DejaVuSans', 12)
         self.pdf.drawString(self.x(2.05*cm), self.y(15.4*cm), self.lside_data.sum + u" руб. 00 коп.")
@@ -96,9 +92,9 @@ class PostReceiptsPdf(pdf.BasePdf):
         #name
         self.drawClippingString(self.lside_data.from_name, self.x(3.5*cm), self.y(12*cm), 9.05*cm, 0.5*cm)
         #address - if need split
-        if len(self.lside_data.from_address) >= 59: # 33chars for font size 8
+        if len(self.lside_data.from_address) >= 60: # chars for font size 8
             #split to 2 line
-            self.drawClippingString(self.lside_data.from_address[:60], self.x(3.12*cm), self.y(11.5*cm), 5.1*cm, 0.5*cm)
+            self.drawClippingString(self.lside_data.from_address[:60], self.x(3.12*cm), self.y(11.5*cm), 9.6*cm, 0.5*cm)
             #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
             self.drawClippingString(self.lside_data.from_address[60:], self.x(2.03*cm), self.y(11*cm), 7.5*cm, 0.5*cm)
         else:
@@ -119,7 +115,7 @@ class PostReceiptsPdf(pdf.BasePdf):
         #name
         self.drawClippingString(self.lside_data.to_name, self.x(3.12*cm), self.y(3.3*cm), 9.4*cm, 0.5*cm)
         #address - if need split
-        if len(self.lside_data.to_address) >= 60: # 33chars for font size 8
+        if len(self.lside_data.to_address) >= 60: # 60chars for font size 8
             #split to 2 line
             self.drawClippingString(self.lside_data.to_address[:60], self.x(3.2*cm), self.y(2.75*cm), 9.4*cm, 0.5*cm)
             #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
@@ -135,6 +131,16 @@ class PostReceiptsPdf(pdf.BasePdf):
         zip_code.textLine(self.lside_data.to_zip_code)
         zip_code.setCharSpace(0)
         self.pdf.drawText(zip_code)
+        
+        #passport data
+        self.pdf.setFontSize(8)
+        self.drawClippingString2(self.lside_data.passport_type , self.x(3.9*cm), self.y(9.6*cm), 8)
+        self.drawClippingString2(self.lside_data.passport_series , self.x(6.35*cm), self.y(9.6*cm), 4)
+        self.drawClippingString2(self.lside_data.passport_number , self.x(7.5*cm), self.y(9.6*cm), 6)
+        self.drawClippingString2(self.lside_data.passport_dt1 , self.x(10.5*cm), self.y(9.6*cm), 5)
+        self.drawClippingString2(self.lside_data.passport_dt2 , self.x(12.2*cm), self.y(9.6*cm), 2)
+        self.drawClippingString2(self.lside_data.passport_by , self.x(2.1*cm), self.y(9.1*cm), 65)
+        
      
     def make_page1_pdf_file(self, file_name=u'page1.pdf'):
         self.create_pdf_file(file_name, page_size=landscape(A4))
@@ -157,6 +163,13 @@ def make_test_data():
     page1_data.from_name = u"его величество Бурухтан-Бурухтан второй второй его величество Бурухтан-Бурухтан второй второй"
     page1_data.from_address = u'Тридевятое царсктво, тридесятое государство, 3 изба справа, третий колокол звонить шесть раз по пять раз 123456789123456789'
     page1_data.from_zip_code = u'393939'
+    page1_data.passport_type = u'паспорт'
+    page1_data.passport_series = u'3939'
+    page1_data.passport_number = u'123456'
+    tmpDate = datetime.now()
+    page1_data.passport_dt1 = tmpDate.strftime(u'%d.%m')
+    page1_data.passport_dt2 = tmpDate.strftime(u'%y')
+    page1_data.passport_by = u'Отделением по району Мордор ОУФМС России по г. Москва'
     
     #long text
     #page1_data.to_name = page1_data.from_name
