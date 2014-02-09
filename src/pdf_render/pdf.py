@@ -65,9 +65,14 @@ class BasePdf():
         self.pdf.showPage() # page end
         self.pdf.save()
         
+    def _make_data(self):
+        self.pdf.setFont('DejaVuSans', 8)
+        self.pdf.drawString(self.x(100), self.y(800), u'Здесь могла быть Ваша реклама')
+        
     def make_pdf_file(self, file_name=u'BasePdf.pdf'):
         self.create_pdf_file(file_name)
         self.set_cyrillic_font()
+        self._make_data()
         self.write_pdf_file()
         
    
