@@ -13,7 +13,7 @@ from reportlab.lib.units import cm
 from reportlab.lib.colors import red, black
 from datetime import datetime
 
-import pdf
+from base_pdf import BasePdf
 
 class F116_data():
     def __init__(self):
@@ -37,10 +37,10 @@ class F116_data():
 
         
 
-class PostReceiptsPdf(pdf.BasePdf):
+class PostReceiptsPdf(BasePdf):
     
     def __init__(self, data, debug=False):
-        pdf.BasePdf.__init__(self, data, debug)
+        BasePdf.__init__(self, data, debug)
         self.lside_data = data[0]
         self.rside_data = data[1]
     

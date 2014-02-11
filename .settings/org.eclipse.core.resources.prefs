@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/pdf_render/__init__.py=utf-8
-encoding//src/pdf_render/pdf.py=utf-8
+encoding//src/pdf_render/base_pdf.py=utf-8
 encoding//src/pdf_render/post_receipts2.py=utf-8
 encoding//src/pdf_render/post_receipts_pdf.py=utf-8
 encoding//src/runtime_gen.py=utf-8
