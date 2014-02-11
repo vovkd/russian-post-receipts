@@ -5,6 +5,10 @@
 local.*
 */**/*.pdf
 !test/**/*.pdf
+.project
+.pydevproject
+example.a.bat
+test_wsgi_server.py
 
 
 
