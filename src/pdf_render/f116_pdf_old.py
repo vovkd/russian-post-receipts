@@ -13,7 +13,7 @@ from reportlab.lib.units import cm
 from reportlab.lib.colors import red, black
 from datetime import datetime
 
-from base_pdf import BasePdf
+from base_pdf import BasePdf, _self_path
 
 class F116_data():
     def __init__(self):
@@ -37,24 +37,16 @@ class F116_data():
 
         
 
-class PostReceiptsPdf(BasePdf):
+class F116PdfOld(BasePdf):
     
     def __init__(self, data, debug=False):
         BasePdf.__init__(self, data, debug)
         self.lside_data = data[0]
         self.rside_data = data[1]
     
-    def set_cyrillic_font(self):
-        pdfmetrics.registerFont(TTFont('DejaVuSans', 'DejaVuSans.ttf'))
-        self.pdf.setFont('DejaVuSans', 10) # default font
-        if self.debug:
-            self.pdf.setFillColor(red)
-        else:
-            self.pdf.setFillColor(black)
-            
     def render_page1_image(self):
         A4_Width, A4_Height = A4
-        self.im = Image(u'post1.JPG',width=A4_Height, height=A4_Width)
+        self.im = Image(_self_path+ '\\' + u'post1.JPG',width=A4_Height, height=A4_Width)
         self.im.drawOn(self.pdf, self.x(0), self.y(0))
 
     def render_page1_data(self):
@@ -188,7 +180,7 @@ def main_test_lib():
     data = list()
     data.append(make_test_data())
     data.append(make_test_data())
-    page1 = PostReceiptsPdf(data, debug=True)
+    page1 = F116PdfOld(data, debug=True)
     page1.make_pdf_file("test_f116.pdf")   
 
 if __name__ == '__main__':

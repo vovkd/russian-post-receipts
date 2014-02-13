@@ -8,8 +8,10 @@ from reportlab.lib.colors import red, pink, black
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 
+import os
+_self_path = os.path.dirname(os.path.abspath(__file__))
 
-class BasePdf():
+class BasePdf(object):
     
     def __init__(self, pdf_data=None, debug=False):
         self.pdf = None
@@ -53,7 +55,7 @@ class BasePdf():
         self.pdf = canvas.Canvas(file_name,pagesize=page_size)
         
     def set_cyrillic_font(self):
-        pdfmetrics.registerFont(TTFont('DejaVuSans', 'DejaVuSans.ttf'))
+        pdfmetrics.registerFont(TTFont('DejaVuSans', _self_path + '\\' 'DejaVuSans.ttf'))
         self.pdf.setFont('DejaVuSans', 10) # default font
         if self.debug:
             self.pdf.setFillColor(red)
