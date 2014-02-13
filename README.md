@@ -6,7 +6,7 @@ reportlab 2.7
 
 Install
 ```
-pip install -e git+https://github.com/shantilabs/russian-post-receipts.git#egg=pdf_render
+pip install -e git+https://github.com/shantilabs/russian-post-receipts.git#egg=pdfrender
 ```
 
 - Передача данных и формирование pdf файла
