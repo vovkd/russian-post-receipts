@@ -10,6 +10,7 @@ local.*
 example.a.bat
 test_wsgi_server.py
 .settings/
+.README.md.html
 
 
 
