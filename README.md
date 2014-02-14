@@ -2,7 +2,7 @@
 
 - Requirements
 ```
-python 2.7; 
+python 2.7 
 reportlab 2.7
 ```
 - Install

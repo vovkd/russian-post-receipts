@@ -5,12 +5,12 @@ Created on 29 янв. 2014 г.
 @author: dsv
 '''
 
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+#from reportlab.pdfbase import pdfmetrics
+#from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus.flowables import Image
 from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib.units import cm
-from reportlab.lib.colors import red, black
+#from reportlab.lib.colors import red, black
 from datetime import datetime
 
 from base_pdf import BasePdf, _self_path
@@ -28,7 +28,7 @@ class F116_data():
         self.from_name = '' #">{{ from_address.name }}</div>
         self.from_address = '' #">{{ from_address.address }}</div>
         self.from_zip_code = '' # zip_code">{{ from_address.zip_code }}</div>
-        self.passport_type = 'паспорт'
+        self.passport_type = u'паспорт'
         self.passport_series = '' #">{{ from_address.passport_series }}</div>
         self.passport_number = '' #">{{ from_address.passport_number }}</div>
         self.passport_dt1 = '' #">{{ from_address.passport_date|date:"d.m" }}</div>

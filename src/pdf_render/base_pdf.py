@@ -52,6 +52,8 @@ class BasePdf(object):
         self.pdf.restoreState()
     
     def create_pdf_file(self, file_name, page_size=A4):
+        self.base_x = 0;
+        self.base_y = 0;
         self.pdf = canvas.Canvas(file_name,pagesize=page_size)
         
     def set_cyrillic_font(self):
