@@ -38,22 +38,22 @@ data.append(data1)
 
 #правая часть бланка
 tmp_date = datetime.now() #ДатаВыдачиДокумента
-data_kwargs=[
-			'sum': u'5550 денег'   
-			'to_name': u'ФИО кому'
-			'to_address': u'Адрес кому'
-			'to_zip_code': u'индекс кому'
-			'from_name': u"ФИО от кого"
-			'from_address': u'Адрес  от кого'
-			'from_zip_code': u'индекс  от кого'
-			'passport_type': u'паспорт - вид кокумента'
-			'passport_series': u'3939'
-			'passport_number': u'123456'
-			'passport_dt1': tmp_date.strftime(u'%d.%m')
-			'passport_dt2': tmp_date.strftime(u'%y')
+data_kwargs={
+			'sum': u'5550 денег',   
+			'to_name': u'ФИО кому',
+			'to_address': u'Адрес кому',
+			'to_zip_code': u'индекс кому',
+			'from_name': u"ФИО от кого",
+			'from_address': u'Адрес  от кого',
+			'from_zip_code': u'индекс  от кого',
+			'passport_type': u'паспорт - вид кокумента',
+			'passport_series': u'3939',
+			'passport_number': u'123456',
+			'passport_dt1': tmp_date.strftime(u'%d.%m'),
+			'passport_dt2': tmp_date.strftime(u'%y'),
 			'passport_by': u'кем выдан'
-			]
-data2 = F116_data(data_kwargs)
+			}
+data2 = F116_data(**data_kwargs)
 
 data.append(data2)
 

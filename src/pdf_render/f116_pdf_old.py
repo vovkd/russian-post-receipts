@@ -56,54 +56,54 @@ class F116PdfOld(BasePdf):
         self.im.drawOn(self.pdf, self.x(0), self.y(0))
 
 
-    def render_page1_data(self):
+    def render_page1_oneside_data(self, side_data):
         self.pdf.setFont('DejaVuSans', 8)
 
         #money
         self.pdf.setFont('DejaVuSans', 12)
-        self.pdf.drawString(self.x(2.05*cm), self.y(15.4*cm), self.lside_data.sum + u" руб. 00 коп.")
-        self.pdf.drawString(self.x(3.53*cm), self.y(4*cm), self.lside_data.sum)
+        self.pdf.drawString(self.x(2.05*cm), self.y(15.4*cm), side_data.sum + u" руб. 00 коп.")
+        self.pdf.drawString(self.x(3.53*cm), self.y(4*cm), side_data.sum)
         
         #to
         self.pdf.setFont('DejaVuSans', 8)
         #name
-        self.drawClippingString(self.lside_data.to_name, self.x(3.12*cm), self.y(13.8*cm), 5.1*cm, 0.5*cm)
+        self.drawClippingString(side_data.to_name, self.x(3.12*cm), self.y(13.8*cm), 5.1*cm, 0.5*cm)
         #address - if need split
-        if len(self.lside_data.to_address) >= 33: # 33chars for font size 8
+        if len(side_data.to_address) >= 33: # 33chars for font size 8
             #split to 2 line
-            self.drawClippingString(self.lside_data.to_address[:33], self.x(3.12*cm), self.y(13.35*cm), 5.1*cm, 0.5*cm)
-            #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
-            self.drawClippingString(self.lside_data.to_address[33:], self.x(2.02*cm), self.y(12.95*cm), 6.1*cm, 0.5*cm)
+            self.drawClippingString(side_data.to_address[:33], self.x(3.12*cm), self.y(13.35*cm), 5.1*cm, 0.5*cm)
+            #if len(side_data.to_address[34:] >= ?)# need 3 line?
+            self.drawClippingString(side_data.to_address[33:], self.x(2.02*cm), self.y(12.95*cm), 6.1*cm, 0.5*cm)
         else:
-            self.drawClippingString(self.lside_data.to_address, self.x(3.12*cm), self.y(13.35*cm), 5.1*cm, 0.5*cm)
+            self.drawClippingString(side_data.to_address, self.x(3.12*cm), self.y(13.35*cm), 5.1*cm, 0.5*cm)
             
         #zip_code
         zip_code = self.pdf.beginText()
         zip_code.setTextOrigin(self.x(5.39*cm), self.y(12.55*cm))
         zip_code.setFont('DejaVuSans', 10)
         zip_code.setCharSpace(8)
-        zip_code.textLine(self.lside_data.to_zip_code)
+        zip_code.textLine(side_data.to_zip_code)
         zip_code.setCharSpace(0)
         self.pdf.drawText(zip_code)
         
         #from
         #name
-        self.drawClippingString(self.lside_data.from_name, self.x(3.5*cm), self.y(12*cm), 9.05*cm, 0.5*cm)
+        self.drawClippingString(side_data.from_name, self.x(3.5*cm), self.y(12*cm), 9.05*cm, 0.5*cm)
         #address - if need split
-        if len(self.lside_data.from_address) >= 60: # chars for font size 8
+        if len(side_data.from_address) >= 60: # chars for font size 8
             #split to 2 line
-            self.drawClippingString(self.lside_data.from_address[:60], self.x(3.12*cm), self.y(11.5*cm), 9.6*cm, 0.5*cm)
-            #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
-            self.drawClippingString(self.lside_data.from_address[60:], self.x(2.03*cm), self.y(11*cm), 7.5*cm, 0.5*cm)
+            self.drawClippingString(side_data.from_address[:60], self.x(3.12*cm), self.y(11.5*cm), 9.6*cm, 0.5*cm)
+            #if len(side_data.to_address[34:] >= ?)# need 3 line?
+            self.drawClippingString(side_data.from_address[60:], self.x(2.03*cm), self.y(11*cm), 7.5*cm, 0.5*cm)
         else:
-            self.drawClippingString(self.lside_data.from_address, self.x(3.12*cm), self.y(11.5*cm), 5.1*cm, 0.5*cm)
+            self.drawClippingString(side_data.from_address, self.x(3.12*cm), self.y(11.5*cm), 5.1*cm, 0.5*cm)
             
         #zip_code
         zip_code = self.pdf.beginText()
         zip_code.setTextOrigin(self.x(9.77*cm), self.y(11.04*cm))
         zip_code.setFont('DejaVuSans', 10)
         zip_code.setCharSpace(8)
-        zip_code.textLine(self.lside_data.from_zip_code)
+        zip_code.textLine(side_data.from_zip_code)
         zip_code.setCharSpace(0)
         self.pdf.drawText(zip_code)
 
@@ -111,43 +111,43 @@ class F116PdfOld(BasePdf):
         #to_down
         self.pdf.setFont('DejaVuSans', 8)
         #name
-        self.drawClippingString(self.lside_data.to_name, self.x(3.12*cm), self.y(3.3*cm), 9.4*cm, 0.5*cm)
+        self.drawClippingString(side_data.to_name, self.x(3.12*cm), self.y(3.3*cm), 9.4*cm, 0.5*cm)
         #address - if need split
-        if len(self.lside_data.to_address) >= 60: # 60chars for font size 8
+        if len(side_data.to_address) >= 60: # 60chars for font size 8
             #split to 2 line
-            self.drawClippingString(self.lside_data.to_address[:60], self.x(3.2*cm), self.y(2.75*cm), 9.4*cm, 0.5*cm)
-            #if len(self.lside_data.to_address[34:] >= ?)# need 3 line?
-            self.drawClippingString(self.lside_data.to_address[60:], self.x(2*cm), self.y(2.28*cm), 7.5*cm, 0.5*cm)
+            self.drawClippingString(side_data.to_address[:60], self.x(3.2*cm), self.y(2.75*cm), 9.4*cm, 0.5*cm)
+            #if len(side_data.to_address[34:] >= ?)# need 3 line?
+            self.drawClippingString(side_data.to_address[60:], self.x(2*cm), self.y(2.28*cm), 7.5*cm, 0.5*cm)
         else:
-            self.drawClippingString(self.lside_data.to_address, self.x(3.2*cm), self.y(2.75*cm), 9.4*cm, 0.5*cm)
+            self.drawClippingString(side_data.to_address, self.x(3.2*cm), self.y(2.75*cm), 9.4*cm, 0.5*cm)
             
         #zip_code
         zip_code = self.pdf.beginText()
         zip_code.setTextOrigin(self.x(9.77*cm), self.y(2.18*cm))
         zip_code.setFont('DejaVuSans', 10)
         zip_code.setCharSpace(8)
-        zip_code.textLine(self.lside_data.to_zip_code)
+        zip_code.textLine(side_data.to_zip_code)
         zip_code.setCharSpace(0)
         self.pdf.drawText(zip_code)
         
         #passport data
         self.pdf.setFontSize(8)
-        self.drawClippingString2(self.lside_data.passport_type , self.x(3.9*cm), self.y(9.6*cm), 8)
-        self.drawClippingString2(self.lside_data.passport_series , self.x(6.35*cm), self.y(9.6*cm), 4)
-        self.drawClippingString2(self.lside_data.passport_number , self.x(7.5*cm), self.y(9.6*cm), 6)
-        self.drawClippingString2(self.lside_data.passport_dt1 , self.x(10.5*cm), self.y(9.6*cm), 5)
-        self.drawClippingString2(self.lside_data.passport_dt2 , self.x(12.2*cm), self.y(9.6*cm), 2)
-        self.drawClippingString2(self.lside_data.passport_by , self.x(2.1*cm), self.y(9.1*cm), 65)
+        self.drawClippingString2(side_data.passport_type , self.x(3.9*cm), self.y(9.6*cm), 8)
+        self.drawClippingString2(side_data.passport_series , self.x(6.35*cm), self.y(9.6*cm), 4)
+        self.drawClippingString2(side_data.passport_number , self.x(7.5*cm), self.y(9.6*cm), 6)
+        self.drawClippingString2(side_data.passport_dt1 , self.x(10.5*cm), self.y(9.6*cm), 5)
+        self.drawClippingString2(side_data.passport_dt2 , self.x(12.2*cm), self.y(9.6*cm), 2)
+        self.drawClippingString2(side_data.passport_by , self.x(2.1*cm), self.y(9.1*cm), 65)
         
      
     def _make_page1_pdf(self, file_name=u'page1.pdf'):
         self.create_pdf_file(file_name, page_size=landscape(A4))
         self.set_cyrillic_font()
         self.render_page1_image()
-        self.render_page1_data()
+        self.render_page1_oneside_data(self.lside_data)
         self.base_x += 14.8*cm
         self.base_y += -0.14*cm
-        self.render_page1_data()
+        self.render_page1_oneside_data(self.rside_data)
         self.pdf.showPage() # page end
         #page 2
         self.base_x = 0
