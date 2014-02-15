@@ -11,6 +11,19 @@ from reportlab.lib.units import cm
 import os
 _self_path = os.path.dirname(os.path.abspath(__file__))
 
+class Base_data(object):
+    
+    def __init__(self, **kwagrs):
+        #self.set_data(**kwagrs)
+        pass
+    
+    def set_data(self, **kwargs):
+        for key in kwargs:
+            if hasattr(self, key):
+                self.__dict__[key] = kwargs[key]
+                #print "variables: %s = %s" % (key, kwargs[key])
+        
+
 class BasePdf(object):
     
     def __init__(self, pdf_data=None, debug=False):
@@ -80,10 +93,10 @@ class BasePdf(object):
         self.write_pdf_file()
         
    
-def main_test_lib():
+def test_base_pdf():
     #make test page
     page = BasePdf()
     page.make_pdf_file()     
 
 if __name__ == '__main__':
-    main_test_lib()
+    test_base_pdf()

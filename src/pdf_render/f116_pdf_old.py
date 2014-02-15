@@ -13,10 +13,11 @@ from reportlab.lib.units import cm
 #from reportlab.lib.colors import red, black
 from datetime import datetime
 
-from base_pdf import BasePdf, _self_path
+from base_pdf import BasePdf, _self_path, Base_data
 
-class F116_data():
-    def __init__(self):
+class F116_data(Base_data):
+    def __init__(self, **kwargs):
+        super(F116_data, self).__init__(**kwargs)
         self.sum = '' #">{{ order.real_total_rub|default:order.total_rub }} руб. 00 коп.</div>
         #self.sum_2 = '' #">{{ order.real_total_rub|default:order.total_rub }}</div>
         self.to_name = '' #">{{ order.name }}</div>
@@ -34,13 +35,13 @@ class F116_data():
         self.passport_dt1 = '' #">{{ from_address.passport_date|date:"d.m" }}</div>
         self.passport_dt2 = '' #">{{ from_address.passport_date|date:"y" }}</div>
         self.passport_by = '' #" = '' #>{{ from_address.passport_by }}</div>
-
-        
+      
+        self.set_data(**kwargs)
 
 class F116PdfOld(BasePdf):
     
     def __init__(self, data, debug=False):
-        BasePdf.__init__(self, data, debug)
+        super(F116PdfOld, self).__init__(data, debug)
         self.lside_data = data[0]
         self.rside_data = data[1]
     
@@ -48,6 +49,12 @@ class F116PdfOld(BasePdf):
         A4_Width, A4_Height = A4
         self.im = Image(_self_path+ '\\' + u'post1.JPG',width=A4_Height, height=A4_Width)
         self.im.drawOn(self.pdf, self.x(0), self.y(0))
+
+    def render_page2_image(self):
+        A4_Width, A4_Height = A4
+        self.im = Image(_self_path+ '\\' + u'post2.JPG',width=A4_Height, height=A4_Width)
+        self.im.drawOn(self.pdf, self.x(0), self.y(0))
+
 
     def render_page1_data(self):
         self.pdf.setFont('DejaVuSans', 8)
@@ -141,6 +148,11 @@ class F116PdfOld(BasePdf):
         self.base_x += 14.8*cm
         self.base_y += -0.14*cm
         self.render_page1_data()
+        self.pdf.showPage() # page end
+        #page 2
+        self.base_x = 0
+        self.base_y = 0
+        self.render_page2_image()
         self.write_pdf_file()
         
     def make_pdf_file(self, file_name=u'F116.pdf'):
@@ -148,8 +160,7 @@ class F116PdfOld(BasePdf):
         
 def make_test_data():
     #test data
-    #lside_data={u'fio':u'Печеньев Иван Петрович',u'summa':u'2110 руб. 00 коп.'}
-    page1_data = F116_data()
+    page1_data = F116_data(sum='55555555')
     page1_data.sum = u'2110'
     page1_data.to_name = u'Соболев Михаил Борисович - тринадцатый'
     page1_data.to_address = u'РФ, г. Москва, ул. Чебурашкина, д.13, кв. 13'
@@ -175,7 +186,7 @@ def make_test_data():
     return page1_data
     
     
-def main_test_lib():
+def test_F116Pdf():
     #make test page
     data = list()
     data.append(make_test_data())
@@ -184,4 +195,4 @@ def main_test_lib():
     page1.make_pdf_file("test_f116.pdf")   
 
 if __name__ == '__main__':
-    main_test_lib()
+    test_F116Pdf()

@@ -10,13 +10,23 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm
 from reportlab.platypus.flowables import Image
 from base_pdf import _self_path
-from f116_pdf_old import make_test_data, F116PdfOld
+import f116_pdf_old
 
-class F116Pdf(F116PdfOld):
+class F116_data(f116_pdf_old.F116_data): # обертка
+    pass
+
+class F116Pdf(f116_pdf_old.F116PdfOld):
     def __init__(self, data, debug=False):
         super(F116Pdf, self).__init__(data, debug)
 
-    def render_page_image(self):
+    def render_page1_image(self):
+        A4_Width, A4_Height = A4
+        self.im = Image(_self_path + '\\'+u'2side.jpg',width=A4_Height, height=A4_Width)
+        self.im.drawOn(self.pdf, self.x(0), self.y(0))
+        self.pdf.line(A4_Height/2, 10, A4_Height/2, A4_Width-10)
+
+    def render_page2_image(self):
+        #TODO добыть картинку 2 стороны
         A4_Width, A4_Height = A4
         self.im = Image(_self_path + '\\'+u'2side.jpg',width=A4_Height, height=A4_Width)
         self.im.drawOn(self.pdf, self.x(0), self.y(0))
@@ -111,24 +121,29 @@ class F116Pdf(F116PdfOld):
     def _make_page1_pdf_file(self, file_name=u'page1.pdf'):
         self.create_pdf_file(file_name, page_size=landscape(A4))
         self.set_cyrillic_font()
-        self.render_page_image()
+        self.render_page1_image()
         self.render_page_data()
         self.base_x += 15.1*cm
         #self.base_y += -0.14*cm
         self.render_page_data()
+        self.pdf.showPage() # page end
+        #page 2
+        self.base_x = 0
+        self.base_y = 0
+        self.render_page2_image()
         self.write_pdf_file()
     
     def make_pdf_file(self, file_name=u'F116.pdf'):
         self._make_page1_pdf_file(file_name)
 
-def main_test_lib():
+def test_F116Pdf():
     #make test page
     data = list()
-    data.append(make_test_data())
-    data.append(make_test_data())
+    data.append(f116_pdf_old.make_test_data())
+    data.append(f116_pdf_old.make_test_data())
     page1 = F116Pdf(data, debug=True)
     page1.make_pdf_file(u'test_f116.pdf')     
 
 
 if __name__ == '__main__':
-    main_test_lib()
+    test_F116Pdf()
