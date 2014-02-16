@@ -47,12 +47,12 @@ class F116PdfOld(BasePdf):
     
     def render_page1_image(self):
         A4_Width, A4_Height = A4
-        self.im = Image(_self_path+ '\\' + u'post1.JPG',width=A4_Height, height=A4_Width)
+        self.im = Image(_self_path+ '/' + u'post1.JPG',width=A4_Height, height=A4_Width)
         self.im.drawOn(self.pdf, self.x(0), self.y(0))
 
     def render_page2_image(self):
         A4_Width, A4_Height = A4
-        self.im = Image(_self_path+ '\\' + u'post2.JPG',width=A4_Height, height=A4_Width)
+        self.im = Image(_self_path+ '/' + u'post2.JPG',width=A4_Height, height=A4_Width)
         self.im.drawOn(self.pdf, self.x(0), self.y(0))
 
 

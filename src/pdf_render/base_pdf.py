@@ -70,7 +70,7 @@ class BasePdf(object):
         self.pdf = canvas.Canvas(file_name,pagesize=page_size)
         
     def set_cyrillic_font(self):
-        pdfmetrics.registerFont(TTFont('DejaVuSans', _self_path + '\\' 'DejaVuSans.ttf'))
+        pdfmetrics.registerFont(TTFont('DejaVuSans', _self_path + u'/' 'DejaVuSans.ttf'))
         self.pdf.setFont('DejaVuSans', 10) # default font
         if self.debug:
             self.pdf.setFillColor(red)
