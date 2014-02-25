@@ -42,8 +42,12 @@ class F116PdfOld(BasePdf):
     
     def __init__(self, data, debug=False):
         super(F116PdfOld, self).__init__(data, debug)
-        self.lside_data = data[0]
-        self.rside_data = data[1]
+        if data:
+            self.lside_data = data[0]
+            self.rside_data = data[1]
+
+    def create_pdf_file(self, file_name, page_size=landscape(A4)):
+        super(F116PdfOld, self).create_pdf_file(file_name, page_size)
     
     def render_page1_image(self):
         A4_Width, A4_Height = A4
@@ -153,6 +157,7 @@ class F116PdfOld(BasePdf):
         self.base_x = 0
         self.base_y = 0
         self.render_page2_image()
+        self.end_page()
         self.write_pdf_file()
         
     def make_pdf_file(self, file_name=u'F116.pdf'):

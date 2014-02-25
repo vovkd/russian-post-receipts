@@ -76,10 +76,11 @@ class BasePdf(object):
             self.pdf.setFillColor(red)
         else:
             self.pdf.setFillColor(black)
-            
+    
+    def end_page(self):            
+        self.pdf.showPage() # page end
 
     def write_pdf_file(self):
-        self.pdf.showPage() # page end
         self.pdf.save()
         
     def _make_data(self):
@@ -90,6 +91,7 @@ class BasePdf(object):
         self.create_pdf_file(file_name)
         self.set_cyrillic_font()
         self._make_data()
+        self.end_page()
         self.write_pdf_file()
         
    
