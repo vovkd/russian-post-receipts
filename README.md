@@ -17,7 +17,8 @@ from datetime import datetime
 data = list()
 #левая часть бланка
 data1 = F116_data()
-#все поля текст
+#все поля текст 
+#кроме passport_date - возможные варианты: date, datetime, str, unicode 
 data1.sum = u'5550 денег'
 data1.to_name = u'ФИО кому'
 data1.to_address = u'Адрес кому'
@@ -30,8 +31,7 @@ data1.passport_series = u'3939'
 data1.passport_number = u'123456'
 # тип datetime
 tmp_date = datetime.now() #ДатаВыдачиДокумента
-data1.passport_dt1 = tmp_date.strftime(u'%d.%m')
-data1.passport_dt2 = tmp_date.strftime(u'%y')
+data1.passport_date = tmp_date
 data1.passport_by = u'кем выдан'
 
 data.append(data1)
@@ -49,8 +49,7 @@ data_kwargs={
 			'passport_type': u'паспорт - вид кокумента',
 			'passport_series': u'3939',
 			'passport_number': u'123456',
-			'passport_dt1': tmp_date.strftime(u'%d.%m'),
-			'passport_dt2': tmp_date.strftime(u'%y'),
+			'passport_date': tmp_date,
 			'passport_by': u'кем выдан'
 			}
 data2 = F116_data(**data_kwargs)

@@ -11,7 +11,8 @@ from reportlab.platypus.flowables import Image
 from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib.units import cm
 #from reportlab.lib.colors import red, black
-from datetime import datetime
+from datetime import datetime, date
+from dateutil import parser
 
 from base_pdf import BasePdf, _self_path, Base_data
 
@@ -35,8 +36,31 @@ class F116_data(Base_data):
         self.passport_dt1 = '' #">{{ from_address.passport_date|date:"d.m" }}</div>
         self.passport_dt2 = '' #">{{ from_address.passport_date|date:"y" }}</div>
         self.passport_by = '' #" = '' #>{{ from_address.passport_by }}</div>
-      
+        self._passport_date = date.today()
         self.set_data(**kwargs)
+        if 'passport_date' in kwargs:
+            self.passport_date = kwargs['passport_date']
+    
+    @property
+    def passport_date(self):
+        return self._passport_data
+    
+    @passport_date.setter
+    def passport_date(self, value):
+        if type(value) is datetime or type(value) is date:
+            self._passport_date = value
+        else: 
+            if type(value) is str or type(value) is unicode:
+                #self._passport_date = parser.parse(value, fuzzy=True)
+                self._passport_date = parser.parse(value)
+            else:
+                raise ValueError
+        self.set_dt1_dt2()
+    
+    def set_dt1_dt2(self):
+        if self._passport_date:
+            self.passport_dt1 = self._passport_date.strftime(u'%d.%m')
+            self.passport_dt2 = self._passport_date.strftime(u'%y')
 
 class F116PdfOld(BasePdf):
     
@@ -177,9 +201,12 @@ def make_test_data():
     page1_data.passport_series = u'3939'
     page1_data.passport_number = u'123456'
     tmpDate = datetime.now()
-    page1_data.passport_dt1 = tmpDate.strftime(u'%d.%m')
-    page1_data.passport_dt2 = tmpDate.strftime(u'%y')
+    #page1_data.passport_dt1 = tmpDate.strftime(u'%d.%m')
+    #page1_data.passport_dt2 = tmpDate.strftime(u'%y')
     page1_data.passport_by = u'Отделением по району Мордор ОУФМС России по г. Москва'
+    page1_data.passport_date = tmpDate
+    #page1_data.passport_date = u"2013/01/03"
+    #page1_data.passport_date = u"Vasiliy"
     
     #long tst
     #page1_data.to_name = page1_data.from_name
@@ -195,7 +222,9 @@ def test_F116Pdf():
     #make test page
     data = list()
     data.append(make_test_data())
-    data.append(make_test_data())
+    r_side = F116_data(passport_date = "1945/05/09")
+    #data.append(make_test_data())
+    data.append(r_side)
     page1 = F116PdfOld(data, debug=True)
     page1.make_pdf_file("test_f116.pdf")   
 
