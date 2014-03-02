@@ -80,9 +80,9 @@ class F116Pdf(f116_pdf_old.F116PdfOld):
             
         #zip_code
         zip_code = self.pdf.beginText()
-        zip_code.setTextOrigin(self.x(10.33*cm), self.y(10.6*cm))
+        zip_code.setTextOrigin(self.x(10.45*cm), self.y(10.6*cm))
         zip_code.setFont('DejaVuSans', 10)
-        zip_code.setCharSpace(8)
+        zip_code.setCharSpace(7.5)
         zip_code.textLine(side_data.from_zip_code)
         zip_code.setCharSpace(0)
         self.pdf.drawText(zip_code)
